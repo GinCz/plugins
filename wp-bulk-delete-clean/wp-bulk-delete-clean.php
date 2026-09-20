@@ -3,7 +3,7 @@
  * Plugin Name: WP Bulk Delete Clean (VladiMIR+AI✅)
  * Plugin URI:  https://github.com/GinCz/Linux_Server_Public/tree/main/WordPress/Plugins/wp-bulk-delete-clean
  * Description: Fast, batch-processing bulk deletion tool for Posts, WooCommerce Products, Pages, and Custom Post Types by date, status, or taxonomies without server timeouts or ads.
- * Version:     2026-09__1.36
+ * Version:     2026-09__1.37
  * Author:      VladiMIR (GinCz) + AI
  * Author URI:  https://github.com/GinCz
  * License:     GPL-2.0-or-later
@@ -173,13 +173,63 @@ function vladimir_bulk_delete_ajax_count() {
 
     $params = $_POST['filters'] ?? array();
     $args   = vladimir_bulk_delete_build_query_args( $params );
-    $args['posts_per_page'] = 1;
-
-    $query = new WP_Query( $args );
+    
+    // Count total matching
+    $count_args = $args;
+    $count_args['posts_per_page'] = 1;
+    $query = new WP_Query( $count_args );
     $total = intval( $query->found_posts );
 
+    // Fetch up to 100 sample items for preview
+    $samples = array();
+    if ( $total > 0 ) {
+        $preview_args = $args;
+        $preview_args['posts_per_page'] = 100;
+        $preview_args['fields']         = ''; // Get full post objects
+
+        $preview_query = new WP_Query( $preview_args );
+
+        foreach ( $preview_query->posts as $p ) {
+            $post_id = $p->ID;
+            $title   = get_the_title( $post_id );
+            if ( empty( $title ) ) {
+                $title = '(Без названия #' . $post_id . ')';
+            }
+
+            $edit_link = get_edit_post_link( $post_id, 'raw' );
+            $view_link = get_permalink( $post_id );
+
+            // Format category / taxonomies
+            $taxonomies = get_object_taxonomies( $p->post_type );
+            $terms_str  = '—';
+            if ( ! empty( $taxonomies ) ) {
+                $post_terms = wp_get_object_terms( $post_id, $taxonomies, array( 'fields' => 'names' ) );
+                if ( ! is_wp_error( $post_terms ) && ! empty( $post_terms ) ) {
+                    $terms_str = implode( ', ', array_slice( $post_terms, 0, 3 ) );
+                }
+            }
+
+            // Date
+            $date_val = ( isset( $params['date_column'] ) && 'post_modified' === $params['date_column'] ) 
+                ? get_the_modified_date( 'Y-m-d H:i', $post_id ) 
+                : get_the_date( 'Y-m-d H:i', $post_id );
+
+            $samples[] = array(
+                'id'        => $post_id,
+                'title'     => esc_html( mb_substr( $title, 0, 80 ) ),
+                'edit_url'  => $edit_link ? esc_url( $edit_link ) : '',
+                'view_url'  => esc_url( $view_link ),
+                'status'    => esc_html( $p->post_status ),
+                'post_type' => esc_html( $p->post_type ),
+                'terms'     => esc_html( $terms_str ),
+                'date'      => esc_html( $date_val ),
+            );
+        }
+    }
+
     wp_send_json_success( array(
-        'total' => $total,
+        'total'   => $total,
+        'samples' => $samples,
     ) );
 }
 
@@ -512,29 +562,137 @@ function vladimir_bulk_delete_render_page() {
 
                 </div>
 
+                <style>
+                    .vbd-btn-preview {
+                        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+                        color: #ffffff !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        padding: 12px 24px !important;
+                        font-size: 14px !important;
+                        font-weight: 600 !important;
+                        cursor: pointer !important;
+                        display: inline-flex !important;
+                        align-items: center !important;
+                        gap: 8px !important;
+                        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
+                        transition: all 0.2s ease-in-out !important;
+                        text-shadow: none !important;
+                        height: auto !important;
+                        text-decoration: none !important;
+                    }
+                    .vbd-btn-preview:hover {
+                        background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
+                        box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35) !important;
+                        transform: translateY(-1px) !important;
+                        color: #ffffff !important;
+                    }
+                    .vbd-btn-preview:active {
+                        transform: translateY(1px) !important;
+                        box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2) !important;
+                    }
+                    .vbd-btn-delete {
+                        background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+                        color: #ffffff !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        padding: 12px 26px !important;
+                        font-size: 14px !important;
+                        font-weight: 600 !important;
+                        cursor: pointer !important;
+                        display: inline-flex !important;
+                        align-items: center !important;
+                        gap: 8px !important;
+                        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25) !important;
+                        transition: all 0.2s ease-in-out !important;
+                        text-shadow: none !important;
+                        height: auto !important;
+                        text-decoration: none !important;
+                    }
+                    .vbd-btn-delete:hover {
+                        background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%) !important;
+                        box-shadow: 0 6px 18px rgba(220, 38, 38, 0.35) !important;
+                        transform: translateY(-1px) !important;
+                        color: #ffffff !important;
+                    }
+                    .vbd-btn-delete:active {
+                        transform: translateY(1px) !important;
+                        box-shadow: 0 2px 6px rgba(220, 38, 38, 0.2) !important;
+                    }
+                    .vbd-pill-status {
+                        display: inline-block;
+                        padding: 3px 8px;
+                        border-radius: 12px;
+                        font-size: 11px;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        letter-spacing: 0.3px;
+                    }
+                    .vbd-status-publish { background: #dcfce7; color: #166534; }
+                    .vbd-status-draft { background: #fef9c3; color: #854d0e; }
+                    .vbd-status-trash { background: #fee2e2; color: #991b1b; }
+                    .vbd-status-pending { background: #f3e8ff; color: #6b21a8; }
+                    .vbd-status-private { background: #e0f2fe; color: #075985; }
+                    .vbd-status-future { background: #ffedd5; color: #9a3412; }
+                </style>
+
                 <!-- Action Controls -->
-                <div style="margin-top:24px;padding-top:16px;border-top:1px solid #e2e8f0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-                    <button type="button" id="vbd-btn-preview" class="button button-secondary button-large" style="display:flex;align-items:center;gap:6px;">
-                        <span class="dashicons dashicons-search" style="margin-top:2px;"></span>
-                        <?php echo ( 'ru' === $lang ) ? 'Подсчитать количество (Превью)' : ( ( 'cs' === $lang ) ? 'Spočítat položky (Náhled)' : 'Calculate Count (Preview)' ); ?>
+                <div style="margin-top:24px;padding-top:20px;border-top:1px solid #e2e8f0;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+                    <button type="button" id="vbd-btn-preview" class="vbd-btn-preview">
+                        <span class="dashicons dashicons-visibility" style="font-size:19px;width:19px;height:19px;"></span>
+                        <span><?php echo ( 'ru' === $lang ) ? '🔍 Показать список и количество (Превью)' : ( ( 'cs' === $lang ) ? '🔍 Spočítat a zobrazit náhled' : '🔍 Preview & Count Items' ); ?></span>
                     </button>
 
-                    <button type="button" id="vbd-btn-start" class="button button-primary button-large" style="background:#d63638;border-color:#b32d2e;display:flex;align-items:center;gap:6px;">
-                        <span class="dashicons dashicons-trash" style="margin-top:2px;"></span>
-                        <?php echo ( 'ru' === $lang ) ? 'Начать массовое удаление' : ( ( 'cs' === $lang ) ? 'Zahájit hromadné mazání' : 'Start Bulk Deletion' ); ?>
+                    <button type="button" id="vbd-btn-start" class="vbd-btn-delete">
+                        <span class="dashicons dashicons-trash" style="font-size:19px;width:19px;height:19px;"></span>
+                        <span><?php echo ( 'ru' === $lang ) ? '🗑️ Начать массовое удаление' : ( ( 'cs' === $lang ) ? '🗑️ Zahájit hromadné mazání' : '🗑️ Start Bulk Deletion' ); ?></span>
                     </button>
 
-                    <button type="button" id="vbd-btn-pause" class="button button-secondary button-large" style="display:none;">
+                    <button type="button" id="vbd-btn-pause" class="button button-secondary button-large" style="display:none;padding:10px 18px;font-size:14px;font-weight:600;">
                         <?php echo ( 'ru' === $lang ) ? 'Пауза' : 'Pause'; ?>
                     </button>
 
-                    <button type="button" id="vbd-btn-stop" class="button button-secondary button-large" style="display:none;color:#b32d2e;">
+                    <button type="button" id="vbd-btn-stop" class="button button-secondary button-large" style="display:none;color:#b32d2e;padding:10px 18px;font-size:14px;font-weight:600;">
                         <?php echo ( 'ru' === $lang ) ? 'Остановить' : 'Stop'; ?>
                     </button>
 
-                    <span id="vbd-preview-badge" style="display:none;font-weight:600;font-size:14px;padding:6px 12px;background:#e2e8f0;border-radius:4px;color:#1e293b;"></span>
+                    <span id="vbd-preview-badge" style="display:none;font-weight:700;font-size:14px;padding:8px 16px;background:#e2e8f0;border-radius:8px;color:#1e293b;"></span>
                 </div>
             </form>
+
+            <!-- Preview Results Table Container -->
+            <div id="vbd-preview-wrapper" style="display:none;margin-top:24px;background:#ffffff;border:1px solid #cbd5e1;box-shadow:0 4px 16px rgba(0,0,0,0.06);border-radius:10px;padding:20px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e2e8f0;padding-bottom:12px;margin-bottom:15px;flex-wrap:wrap;gap:10px;">
+                    <div>
+                        <h3 style="margin:0;font-size:16px;font-weight:700;color:#0f172a;display:flex;align-items:center;gap:8px;">
+                            <span class="dashicons dashicons-list-view" style="color:#2563eb;font-size:20px;width:20px;height:20px;"></span>
+                            <span><?php echo ( 'ru' === $lang ) ? 'Предпросмотр записей по выбранным условиям' : ( ( 'cs' === $lang ) ? 'Náhled položek podle zadaných kritérií' : 'Records Preview by Selected Filters' ); ?></span>
+                        </h3>
+                        <div id="vbd-preview-subtitle" style="font-size:13px;color:#64748b;margin-top:4px;"></div>
+                    </div>
+                    <button type="button" id="vbd-preview-close" class="button" style="font-size:12px;display:flex;align-items:center;gap:4px;">
+                        ✕ <?php echo ( 'ru' === $lang ) ? 'Скрыть список' : 'Hide list'; ?>
+                    </button>
+                </div>
+
+                <div style="max-height:420px;overflow-y:auto;border:1px solid #e2e8f0;border-radius:8px;">
+                    <table class="wp-list-table widefat fixed striped" style="border:none;margin:0;">
+                        <thead>
+                            <tr style="background:#f8fafc;">
+                                <th style="width:40px;text-align:center;font-weight:700;">#</th>
+                                <th style="width:70px;font-weight:700;">ID</th>
+                                <th style="font-weight:700;"><?php echo ( 'ru' === $lang ) ? 'Заголовок записи / товара' : 'Title'; ?></th>
+                                <th style="width:160px;font-weight:700;"><?php echo ( 'ru' === $lang ) ? 'Рубрика / Категория' : 'Taxonomy / Terms'; ?></th>
+                                <th style="width:140px;font-weight:700;"><?php echo ( 'ru' === $lang ) ? 'Дата' : 'Date'; ?></th>
+                                <th style="width:120px;font-weight:700;text-align:center;"><?php echo ( 'ru' === $lang ) ? 'Статус' : 'Status'; ?></th>
+                            </tr>
+                        </thead>
+                        <tbody id="vbd-preview-tbody">
+                            <!-- Populated via AJAX -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
             <!-- Progress Area -->
             <div id="vbd-progress-wrapper" style="display:none;margin-top:24px;padding:16px;background:#f1f5f9;border-radius:6px;border:1px solid #cbd5e1;">
@@ -651,30 +809,71 @@ function vladimir_bulk_delete_render_page() {
             consoleEl.scrollTop(consoleEl[0].scrollHeight);
         }
 
+        // Close preview table
+        $('#vbd-preview-close').on('click', function() {
+            $('#vbd-preview-wrapper').slideUp();
+        });
+
         // Preview / Count Action
         $('#vbd-btn-preview').on('click', function() {
             var btn = $(this);
             var badge = $('#vbd-preview-badge');
-            btn.prop('disabled', true);
-            badge.show().text('⏳ <?php echo ( 'ru' === $lang ) ? 'Подсчёт...' : 'Counting...'; ?>').css('background', '#fef08a').css('color', '#854d0e');
+            var wrapper = $('#vbd-preview-wrapper');
+            var tbody = $('#vbd-preview-tbody');
+            var subtitle = $('#vbd-preview-subtitle');
+
+            btn.prop('disabled', true).css('opacity', '0.7');
+            badge.show().text('⏳ <?php echo ( 'ru' === $lang ) ? 'Подсчёт и загрузка списка...' : 'Counting and fetching items...'; ?>').css('background', '#fef08a').css('color', '#854d0e');
 
             $.post(ajaxUrl, {
                 action: 'vladimir_bulk_delete_count',
                 nonce: nonce,
                 filters: getFilterParams()
             }, function(res) {
-                btn.prop('disabled', false);
+                btn.prop('disabled', false).css('opacity', '1');
                 if (res.success) {
                     var count = res.data.total;
                     totalCount = count;
-                    badge.text('🔍 ' + count.toLocaleString() + ' <?php echo ( 'ru' === $lang ) ? 'записей найдено' : 'items found'; ?>')
+                    var samples = res.data.samples || [];
+
+                    badge.text('🎯 ' + count.toLocaleString() + ' <?php echo ( 'ru' === $lang ) ? 'записей найдено' : 'items found'; ?>')
                          .css('background', count > 0 ? '#bbf7d0' : '#e2e8f0')
                          .css('color', count > 0 ? '#166534' : '#475569');
+
+                    tbody.empty();
+
+                    if (count === 0) {
+                        subtitle.text('<?php echo ( 'ru' === $lang ) ? 'Нет записей, соответствующих выбранным критериям.' : 'No items match the chosen criteria.'; ?>');
+                        tbody.html('<tr><td colspan="6" style="text-align:center;padding:24px;color:#64748b;font-size:14px;">📭 <?php echo ( 'ru' === $lang ) ? 'Записи не найдены' : 'No matching records found'; ?></td></tr>');
+                        wrapper.slideDown();
+                        return;
+                    }
+
+                    subtitle.html('<?php echo ( 'ru' === $lang ) ? 'Всего под условия подходит: ' : 'Total matching: '; ?><strong>' + count.toLocaleString() + '</strong>. <?php echo ( 'ru' === $lang ) ? 'Показано первых: ' : 'Showing first: '; ?><strong>' + samples.length + '</strong> <?php echo ( 'ru' === $lang ) ? 'записей' : 'records'; ?>.');
+
+                    samples.forEach(function(item, idx) {
+                        var statusPill = '<span class="vbd-pill-status vbd-status-' + item.status + '">' + item.status + '</span>';
+                        var linkHtml = item.edit_url 
+                            ? '<a href="' + item.edit_url + '" target="_blank" style="font-weight:600;color:#2563eb;text-decoration:none;">' + item.title + '</a> <a href="' + item.view_url + '" target="_blank" style="color:#94a3b8;font-size:12px;" title="View">↗</a>' 
+                            : '<a href="' + item.view_url + '" target="_blank" style="font-weight:600;color:#2563eb;text-decoration:none;">' + item.title + ' ↗</a>';
+
+                        var row = '<tr class="vbd-table-row">' +
+                            '<td style="text-align:center;color:#94a3b8;font-size:12px;">' + (idx + 1) + '</td>' +
+                            '<td style="font-family:monospace;font-weight:600;color:#475569;">#' + item.id + '</td>' +
+                            '<td>' + linkHtml + '</td>' +
+                            '<td style="font-size:12px;color:#475569;">' + item.terms + '</td>' +
+                            '<td style="font-size:12px;color:#64748b;font-family:monospace;">' + item.date + '</td>' +
+                            '<td style="text-align:center;">' + statusPill + '</td>' +
+                            '</tr>';
+                        tbody.append(row);
+                    });
+
+                    wrapper.slideDown();
                 } else {
                     badge.text('Error: ' + (res.data ? res.data.message : 'Unknown')).css('background', '#fecaca').css('color', '#991b1b');
                 }
             }).fail(function() {
-                btn.prop('disabled', false);
+                btn.prop('disabled', false).css('opacity', '1');
                 badge.text('AJAX Network Error').css('background', '#fecaca').css('color', '#991b1b');
             });
         });
