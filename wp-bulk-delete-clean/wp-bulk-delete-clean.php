@@ -3,7 +3,7 @@
  * Plugin Name: WP Bulk Delete Clean (VladiMIR+AI✅)
  * Plugin URI:  https://github.com/GinCz/Linux_Server_Public/tree/main/WordPress/Plugins/wp-bulk-delete-clean
  * Description: Fast, batch-processing bulk deletion tool for Posts, WooCommerce Products, Pages, and Custom Post Types by date, status, or taxonomies without server timeouts or ads.
- * Version:     2026-09__1.31
+ * Version:     2026-09__1.36
  * Author:      VladiMIR (GinCz) + AI
  * Author URI:  https://github.com/GinCz
  * License:     GPL-2.0-or-later
@@ -36,9 +36,13 @@ if ( is_admin() ) {
 // ─────────────────────────────────────────────
 
 function vladimir_bulk_delete_add_menu() {
+    $locale = function_exists( 'get_user_locale' ) ? get_user_locale() : get_locale();
+    $lang   = strtolower( substr( $locale, 0, 2 ) );
+    $menu_title = ( 'ru' === $lang ) ? '🗑️ Массовое удаление' : ( ( 'cs' === $lang ) ? '🗑️ Hromadné mazání' : '🗑️ WP Bulk Delete' );
+
     add_management_page(
         'WP Bulk Delete Clean',
-        '🗑️ WP Bulk Delete',
+        $menu_title,
         'manage_options',
         'wp-bulk-delete-clean',
         'vladimir_bulk_delete_render_page'
@@ -49,13 +53,13 @@ function vladimir_bulk_delete_action_links( $links ) {
     $locale = function_exists( 'get_user_locale' ) ? get_user_locale() : get_locale();
     $lang   = strtolower( substr( $locale, 0, 2 ) );
 
-    $tool_label = ( 'ru' === $lang ) ? '🗑️ Очистка записей' : ( ( 'cs' === $lang ) ? '🗑️ Hromadné mazání' : '🗑️ Bulk Delete Tool' );
-    $docs_label = ( 'ru' === $lang ) ? 'GitHub ↗' : 'GitHub ↗';
+    $settings_label = ( 'ru' === $lang ) ? 'Настройки' : ( ( 'cs' === $lang ) ? 'Nastavení' : 'Settings' );
+    $docs_label     = 'GitHub ↗';
 
-    $tool_link = '<a href="' . esc_url( admin_url( 'tools.php?page=wp-bulk-delete-clean' ) ) . '" style="font-weight:600;color:#2271b1;">' . esc_html( $tool_label ) . '</a>';
-    $docs_link = '<a href="https://github.com/GinCz/Linux_Server_Public/tree/main/WordPress/Plugins/wp-bulk-delete-clean" target="_blank" rel="noopener noreferrer">' . esc_html( $docs_label ) . '</a>';
+    $settings_link = '<a href="' . esc_url( admin_url( 'tools.php?page=wp-bulk-delete-clean' ) ) . '" style="font-weight:700;color:#2271b1;">' . esc_html( $settings_label ) . '</a>';
+    $docs_link     = '<a href="https://github.com/GinCz/plugins/tree/main/wp-bulk-delete-clean" target="_blank" rel="noopener noreferrer">' . esc_html( $docs_label ) . '</a>';
 
-    array_unshift( $links, $tool_link );
+    array_unshift( $links, $settings_link );
     $links[] = $docs_link;
     return $links;
 }
@@ -409,8 +413,8 @@ function vladimir_bulk_delete_render_page() {
 
                         <!-- Dynamic Date Inputs -->
                         <div id="vbd-box-days" style="display:none;margin-bottom:12px;">
-                            <label style="font-size:13px;display:block;margin-bottom:4px;"><?php echo ( 'ru' === $lang ) ? 'Количество дней:' : 'Number of days:'; ?></label>
-                            <input type="number" id="vbd-days-val" name="days_val" value="30" min="1" max="9999" style="width:100px;">
+                            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;"><?php echo ( 'ru' === $lang ) ? 'Количество дней (например 30, 365, 1000):' : 'Number of days (e.g. 30, 365, 1000):'; ?></label>
+                            <input type="number" id="vbd-days-val" name="days_val" value="30" min="1" max="99999" style="min-width:140px;width:160px;font-size:16px;font-weight:700;padding:6px 12px;text-align:center;border-radius:4px;border:1px solid #8c8f94;">
                         </div>
 
                         <div id="vbd-box-before" style="display:none;margin-bottom:12px;">
