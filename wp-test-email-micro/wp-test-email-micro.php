@@ -84,11 +84,11 @@ if ( is_admin() ) {
 }
 
 function vladimir_test_email_add_menu() {
-    add_management_page( 'WP Test Email', 'Test Email', 'manage_options', 'vladimir-test-email', 'vladimir_test_email_render_page' );
+    add_management_page( 'WP Test Email', '✉️ Test Email', 'manage_options', 'vladimir-test-email', 'vladimir_test_email_render_page' );
 }
 
 function vladimir_test_email_action_links( $links ) {
-    $test_link = '<a href="' . esc_url( admin_url( 'tools.php?page=vladimir-test-email' ) ) . '">Test Email</a>';
+    $test_link = '<a href="' . esc_url( admin_url( 'tools.php?page=vladimir-test-email' ) ) . '">✉️ Test Email</a>';
     array_unshift( $links, $test_link );
     return $links;
 }
