@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Plugin Name: Classic Editor - TinyMCE (VladiMIR+AI✅)
  * Plugin URI:  https://github.com/GinCz/Linux_Server_Public/tree/main/WordPress/Plugins/classic-editor-tinymce

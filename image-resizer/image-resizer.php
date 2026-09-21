@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Plugin Name: Image Resizer on Upload (VladiMIR+AI✅)
  * Plugin URI:  https://github.com/GinCz/Linux_Server_Public/tree/main/WordPress/Plugins/image-resizer

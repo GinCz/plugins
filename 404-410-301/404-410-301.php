@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Plugin Name: 404-410-301 (SEO 404/410 + Auto-Redirect to Homepage) (VladiMIR+AI✅)
  * Plugin URI:  https://github.com/GinCz/Linux_Server_Public/tree/main/WordPress/Plugins/404-410-301

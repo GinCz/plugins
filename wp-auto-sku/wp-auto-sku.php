@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Plugin Name: WooCommerce Auto SKU Generator & SKU Search (VladiMIR+AI✅)
  * Plugin URI:  https://github.com/GinCz/Linux_Server_Public/tree/main/WordPress/Plugins/wp-auto-sku

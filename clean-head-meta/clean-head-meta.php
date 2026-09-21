@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Plugin Name: Clean Head Meta & Anti-Fingerprint (VladiMIR+AI✅)
  * Plugin URI:  https://github.com/GinCz/Linux_Server_Public/tree/main/WordPress/Plugins/clean-head-meta

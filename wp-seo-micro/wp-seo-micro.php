@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Plugin Name: WP SEO Micro (VladiMIR+AI✅)
  * Plugin URI:  https://github.com/GinCz/Linux_Server_Public/tree/main/WordPress/Plugins/wp-seo-micro

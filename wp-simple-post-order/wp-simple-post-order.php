@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Plugin Name: WP Simple Post & Category Order (VladiMIR+AI✅)
  * Plugin URI:  https://github.com/GinCz/Linux_Server_Public/tree/main/WordPress/Plugins/wp-simple-post-order

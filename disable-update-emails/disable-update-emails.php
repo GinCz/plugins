@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Plugin Name: Disable Update Notification Emails (VladiMIR+AI✅)
  * Plugin URI:  https://github.com/GinCz/Linux_Server_Public/tree/main/WordPress/Plugins/disable-update-emails

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Plugin Name: WP Bulk Delete Clean (VladiMIR+AI✅)
  * Plugin URI:  https://github.com/GinCz/Linux_Server_Public/tree/main/WordPress/Plugins/wp-bulk-delete-clean

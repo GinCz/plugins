@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Plugin Name: Cyrillic & European to Latin SEO Transliteration (VladiMIR+AI✅)
  * Plugin URI:  https://github.com/GinCz/Linux_Server_Public/tree/main/WordPress/Plugins/translit-cyr-lat

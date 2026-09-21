@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Plugin Name: Live Active Users & Visitors Counter (VladiMIR+AI✅)
  * Plugin URI:  https://github.com/GinCz/Linux_Server_Public/tree/main/WordPress/Plugins/wp-online-counter
