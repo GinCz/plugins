@@ -3,6 +3,30 @@
 Versioning format: YYYY-MM__<generation>.<build> (see [../../README.md](../../README.md)).
 Monotonically increasing version: each update must strictly increment the build number.
 
+## 2026-10__1.41 — 2026-10-02
+
+- **Live Error & Penalty Breakdown (Strictly Issues, No Clutter).** If Mail-Tester score is below 10/10, automatically parses and lists all negative score penalties (SpamAssassin deductions, DKIM/SPF/DMARC warnings, missing rDNS, blocklist flags) in a dedicated panel directly under the score card in the WordPress admin interface.
+- **1-Click Copy Issues Button (`📋 Скопировать ошибки`).** Added instant clipboard copy button that formats all detected negative items with exact point deductions and rule explanations for easy paste into chat or support tickets.
+- **Positive checks filtered out.** Passing rules (+0.1, valid signatures, etc.) are excluded to keep the focus exclusively on actionable problems.
+- **Flawless score banner.** Displays a green verified confirmation when a perfect 10/10 score with 0 penalties is achieved.
+
+---
+
+## 2026-09__1.40 — 2026-09-25
+
+- **Fixed certified domain badge encoding & translated to English.** Restored clean UTF-8 encoding and English text for the 10/10 verified deliverability banner on certified production domains.
+
+---
+
+## 2026-09__1.39 — 2026-09-25
+
+- **Full 8-language UI localization.** Translated every UI element (titles, descriptions, button labels, stopwatch metrics, status texts, error notices, DNS guidelines) across all 8 mandatory languages: English, Russian, Czech, German, Italian, Spanish, French, Polish.
+- **Reorganized UI Layout.** Standardized section order:
+  1. Section 1 (Top): Automatic Mail-Tester Score (1-click run, delivery stopwatch, live score, full report link).
+  2. Section 2 (Middle): Manual Test Email Form (recipient input, sender configuration, custom message, site logo preview).
+  3. Section 3 (Bottom): DNS Records Panel (SPF, DKIM with selector picker, DMARC, MX, PTR).
+- **Embedded updater & translation clients.** Bundled byte-identical `vladimir-ai-updater.php` and `vladimir-ai-i18n.php` for seamless native WordPress core auto-updates.
+
 ---
 
 ## 2026-09__1.38 — 2026-09-25
