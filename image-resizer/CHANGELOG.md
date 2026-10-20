@@ -4,6 +4,21 @@ Versioning format: YYYY-MM__<generation>.<build> (see [../../README.md](../../RE
 Monotonically increasing version: each update must strictly increment the build number.
 
 ---
+
+## 2026-10__1.38 — 2026-10-20
+
+- **Cloudflare Edge Delivery & Optimization Integration**: Added optional Cloudflare Edge delivery toggle (`enable_cloudflare`) and custom CDN/Worker domain input (`cloudflare_domain`).
+- **Fail-Safe for Russian Domains (.RU / .РФ)**: Disabled strictly by default (`default: 0`). When disabled, operates 100% locally via GD/Imagick with zero external network requests.
+- **Dynamic URL Rewriting Without Database Modification**: Image URLs are dynamically filtered on-the-fly (`wp_get_attachment_url`, `the_content`, `wp_calculate_image_srcset`), guaranteeing zero DB pollution. Turning off the checkbox immediately restores local URLs.
+
+---
+
+## 2026-09__1.37 — 2026-09-21
+
+- **Codebase maintenance & independence**: Removed standalone updater dependency, streamlined standalone micro-plugin architecture, synchronized suite versioning.
+
+---
+
 ## 2026-09__1.24 — 2026-09-20
 
 - **Окончательное устранение аварии с HTTP 500.** Общие модули (`vladimir-ai-updater.php`, `vladimir-ai-i18n.php`) больше не дублируются в каждом плагине — они поставляются только внутри `404-410-301`, остальные плагины подключают их, если файл есть, и прекрасно работают без него.
