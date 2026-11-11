@@ -85,49 +85,17 @@ All plugins in this repository automatically update directly from WordPress with
 * **`wp-simple-post-order`**: Native HTML5 drag-and-drop reordering for posts, products, and taxonomies (categories).
 * **`wp-test-email-micro`**: Administrator-only on-demand email delivery test; no database logging or global mail interception.
 
-### 2. Русский (`ru`)
-* **`404-410-301`**: Отдаёт поисковикам честный HTTP 404/410 для быстрого удаления битых ссылок из индекса и плавно перенаправляет посетителя на главную по таймеру.
-* **`classic-editor-tinymce`**: Возвращает классический редактор: отключает Gutenberg и блочные виджеты, держит открытой вторую строку панели форматирования.
-* **`clean-head-meta`**: Чистит мусор в `<head>`, скрывает номер версии WordPress, закрывает XML-RPC и пингбеки, убирает emoji-скрипты и добавляет авторские мета-теги.
-* **`disable-update-emails`**: Полностью отключает спам уведомлениями об автообновлениях движка, плагинов и тем на почту администратора.
-* **`image-resizer`**: Автоматически масштабирует огромные фото при загрузке до 1600×1600 px с сохранением качества 95% JPEG/WebP.
-* **`translit-cyr-lat`**: Быстрая SEO-транслитерация кириллицы (RU, UA) и чешско-словацких символов в чистые латинские URL (slug).
-* **`wp-allow-html-cats`**: Разрешает безопасное HTML-форматирование в описаниях рубрик и таксономий с защитой от XSS.
-* **`wp-auto-sku`**: Генерирует уникальные случайные 5-значные артикулы (например, 74921) для товаров WooCommerce и ускоряет поиск по артикулу.
-* **`wp-bulk-delete-clean`**: Быстрое массовое удаление постов, товаров WooCommerce и страниц по дате, статусу и рубрикам через AJAX без рекламы и зависаний сервера.
-* **`wp-online-counter`**: Реальный счётчик онлайн-посетителей и администраторов в админ-баре и колонке пользователей.
-* **`wp-seo-micro`**: Лёгкий SEO-модуль: title, meta description, Open Graph, канонические ссылки и XML-карта сайта без лишнего веса.
-* **`wp-simple-post-order`**: Сортировка записей, страниц, товаров WooCommerce и рубрик перетаскиванием мышью.
-* **`wp-test-email-micro`**: Диагностика почты по требованию: отправляет тестовое письмо через `wp_mail()` и показывает точную причину сбоя.
+---
 
-### 3. Čeština (`cs`)
-* **`404-410-301`**: Vrací vyhledávačům korektní HTTP 404/410 pro rychlé odstranění mrtvých odkazů z indexu a návštěvníka plynule přesměruje na úvodní stránku s odpočtem.
-* **`classic-editor-tinymce`**: Vrací klasický editor: vypíná Gutenberg i blokové widgety a nechává otevřenou druhou řádku formátovací lišty.
-* **`clean-head-meta`**: Čistí nepořádek v `<head>`, skrývá verzi WordPressu, zavírá XML-RPC a pingbacky, odstraňuje emoji skripty a přidává autorské meta tagy.
-* **`disable-update-emails`**: Zcela vypíná e-mailová oznámení o automatických aktualizacích jádra, pluginů a šablon.
-* **`image-resizer`**: Automaticky zmenšuje velké nahrané obrázky na 1600×1600 px s vysokou kvalitou 95%.
-* **`translit-cyr-lat`**: Rychlá SEO transliterace azbuky a českých/slovenských znaků s diakritikou do čistých URL.
-* **`wp-allow-html-cats`**: Umožňuje bezpečné HTML formátování v popisech rubrik a taxonomií s ochranou proti XSS.
-* **`wp-auto-sku`**: Generuje unikátní náhodné 5místné kódy SKU pro produkty WooCommerce a umožňuje okamžité vyhledávání.
-* **`wp-bulk-delete-clean`**: Rychlé hromadné mazání příspěvků, produktů WooCommerce a stránek podle data, stavu a rubrik přes AJAX bez reklam a zasekávání serveru.
-* **`wp-online-counter`**: Zobrazuje počet návštěvníků a administrátorů online v horní liště administrace.
-* **`wp-seo-micro`**: Lehký SEO modul: titulky, meta popisy, Open Graph, kanonické odkazy a XML mapa webu.
-* **`wp-simple-post-order`**: Řazení příspěvků, stránek, produktů WooCommerce a rubrik přetažením myší.
-* **`wp-test-email-micro`**: Diagnostika pošty na vyžádání: odešle testovací e-mail přes `wp_mail()` a zobrazí přesnou příčinu selhání.
+<br/>
 
-### 4. Deutsch (`de`)
-* **`404-410-301`**: Liefert Suchmaschinen einen echten HTTP-404/410-Status zur schnellen Deindexierung toter Links und leitet Besucher sanft zur Startseite weiter.
-* **`classic-editor-tinymce`**: Stellt den klassischen Editor wieder her: deaktiviert Gutenberg und hält die zweite Formatierungsleiste geöffnet.
-* **`clean-head-meta`**: Räumt den `<head>` auf, verbirgt die WordPress-Version, schließt XML-RPC und Pingbacks, entfernt Emoji-Skripte.
-* **`disable-update-emails`**: Deaktiviert Benachrichtigungs-E-Mails über automatische Updates von WordPress, Plugins und Themes.
-* **`image-resizer`**: Skaliert große Bild-Uploads automatisch auf maximal 1600×1600 px bei 95% Qualität.
-* **`translit-cyr-lat`**: Schnelle SEO-Transliteration von kyrillischen und Sonderzeichen in saubere URLs.
-* **`wp-allow-html-cats`**: Ermöglicht sicheres HTML in Kategorie- und Taxonomie-Beschreibungen.
-* **`wp-auto-sku`**: Generiert zufällige 5-stellige Artikelnummern (SKUs) für WooCommerce und aktiviert Schnellsuche.
-* **`wp-bulk-delete-clean`**: Schnelles Massenlöschen von Beiträgen, WooCommerce-Produkten und Seiten nach Datum, Status und Kategorien per AJAX.
-* **`wp-online-counter`**: Echtzeitzähler aktiver Besucher und Administratoren in der Admin-Leiste.
-* **`wp-seo-micro`**: Schlankes SEO-Modul: Title, Meta-Description, Open Graph, kanonische URLs und XML-Sitemap.
-* **`wp-simple-post-order`**: Sortierung von Beiträgen, Seiten, Produkten und Kategorien per Drag-and-drop.
+## 🌐 Supported Core Languages
+
+All plugins feature automated runtime localization through native gettext `.mo`/`.po` dictionaries:
+* **English (`en_US`)** — Native built-in interface default.
+* **German (`de_DE`)**, **French (`fr_FR`)**, **Spanish (`es_ES`)**, **Italian (`it_IT`)** — Fully supported via bundled gettext dictionaries.
+
+---
 * **`wp-test-email-micro`**: Mail-Diagnose auf Abruf: versendet eine Testnachricht über `wp_mail()` und zeigt die genaue Fehlerursache.
 
 ### 5. Italiano (`it`)
@@ -220,7 +188,7 @@ All plugins are released under the [GPL-2.0-or-later](https://www.gnu.org/licens
 &nbsp;&nbsp;<b>|||</b>&nbsp;&nbsp;
 <a href="https://www.linkedin.com/in/gincz/" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
 &nbsp;&nbsp;<b>|||</b>&nbsp;&nbsp;
-<a href="https://uslugi.yandex.ru/profile/VladimirBulantsev-1756893" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Яндекс.Услуги-FC3F1D?style=flat&logo=yandex&logoColor=white" alt="Яндекс.Услуги" /></a>
+<a href="https://uslugi.yandex.ru/profile/VladimirBulantsev-1756893" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Yandex.Services-FC3F1D?style=flat&logo=yandex&logoColor=white" alt="Yandex.Services" /></a>
 
 <br/><br/>
 
