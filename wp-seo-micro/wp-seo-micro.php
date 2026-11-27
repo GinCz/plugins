@@ -624,6 +624,13 @@ add_action( 'admin_post_vladimir_save_seo_settings', function() {
 // 4. TITLE TAG GENERATION
 // ─────────────────────────────────────────────
 
+// Map ?keyword= to ?s= for universal search compatibility across classifieds and standard sites
+add_action( "init", function() {
+    if ( isset( $_GET["keyword"] ) && ! isset( $_GET["s"] ) ) {
+        $_GET["s"] = sanitize_text_field( (string) $_GET["keyword"] );
+    }
+} );
+
 add_filter( 'pre_get_document_title', function( $title ) {
     $settings  = vladimir_seo_get_settings();
     $sep       = ' ' . trim( $settings['title_separator'] ?: '>' ) . ' ';
@@ -1201,7 +1208,7 @@ add_action( 'wp_head', function() {
                     'description' => get_bloginfo( 'description' ),
                     'potentialAction' => array(
                         '@type'       => 'SearchAction',
-                        'target'      => get_page_by_path( 'poisk-obyavlenij' ) ? home_url( '/poisk-obyavlenij/?keyword={search_term_string}' ) : home_url( '/?s={search_term_string}' ),
+                        'target'      => home_url( '/find/?s={search_term_string}' ),
                         'query-input' => 'required name=search_term_string',
                     ),
                 ),
