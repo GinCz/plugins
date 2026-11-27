@@ -162,6 +162,15 @@
             "requires": "6.0",
             "requires_php": "7.4",
             "tested": "6.8"
+        },
+        "wp-site-stats": {
+            "version": "2026-11__1.00",
+            "package": "https://raw.githubusercontent.com/GinCz/plugins/main/zips/wp-site-stats.zip",
+            "url": "https://github.com/GinCz/plugins/tree/main/wp-site-stats",
+            "name": "Site Traffic & Visitor Analytics (VladiMIR+AI✅)",
+            "requires": "6.0",
+            "requires_php": "7.4",
+            "tested": "6.8"
         }
     }
 }
