@@ -1,6 +1,6 @@
 # CHANGELOG - SEO 404/410 + Auto-Redirect to Homepage
 
-Versioning format: YYYY-MM__<generation>.<build> (see [../../README.md](../../README.md)).
+Versioning format: YYYY-MM__<generation>.<build> (see [../README.md](../README.md)).
 Monotonically increasing version: each update must strictly increment the build number.
 
 ---

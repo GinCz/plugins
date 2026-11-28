@@ -1,6 +1,6 @@
 # CHANGELOG - WP Test Email Micro
 
-Versioning format: YYYY-MM__<generation>.<build> (see [../../README.md](../../README.md)).
+Versioning format: YYYY-MM__<generation>.<build> (see [../README.md](../README.md)).
 Monotonically increasing version: each update must strictly increment the build number.
 
 ## 2026-10__1.45 — 2026-10-02

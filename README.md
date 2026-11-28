@@ -122,6 +122,12 @@ All plugins include native gettext internationalization (`.pot`, `.po`, `.mo`) a
 
 ---
 
+## 🏷️ Keywords, Topics & Search Metadata
+
+           
+
+<br/>
+
 ## 📜 License
 
 All plugins are released under the [GPL-2.0-or-later](https://www.gnu.org/licenses/gpl-2.0.html) license.

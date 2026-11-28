@@ -1,6 +1,6 @@
 # CHANGELOG - WP SEO Micro
 
-Versioning format: YYYY-MM__<generation>.<build> (see [../../README.md](../../README.md)).
+Versioning format: YYYY-MM__<generation>.<build> (see [../README.md](../README.md)).
 Monotonically increasing version: each update must strictly increment the build number.
 
 ---
